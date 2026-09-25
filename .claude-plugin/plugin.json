@@ -1,0 +1,12 @@
+{
+  "name": "deepmedchem",
+  "version": "0.1.0",
+  "description": "Search public chemical spaces by molecular similarity with DeepMedChem.",
+  "author": {
+    "name": "Deep MedChem",
+    "url": "https://deepmedchem.com"
+  },
+  "homepage": "https://mcp.deepmedchem.com",
+  "repository": "https://github.com/Deep-MedChem/deepmedchem-claude-plugin",
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "deepmedchem",
+  "description": "Official DeepMedChem plugins for Claude.",
+  "owner": {
+    "name": "Deep MedChem",
+    "url": "https://deepmedchem.com"
+  },
+  "plugins": [
+    {
+      "name": "deepmedchem",
+      "source": "./",
+      "description": "Search public chemical spaces by molecular similarity with DeepMedChem."
+    }
+  ]
+}
