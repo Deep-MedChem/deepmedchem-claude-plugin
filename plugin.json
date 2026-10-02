@@ -1,0 +1,37 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "deepmedchem",
+  "version": "0.1.0",
+  "description": "Search public chemical spaces by molecular similarity with DeepMedChem.",
+  "author": {
+    "name": "Deep MedChem",
+    "email": "info@deepmedchem.com",
+    "url": "https://deepmedchem.com"
+  },
+  "homepage": "https://github.com/Deep-MedChem/deepmedchem-claude-plugin",
+  "license": "MIT",
+  "keywords": ["chemistry", "cheminformatics", "molecules", "similarity search", "drug discovery"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "DeepMedChem",
+        "shortDescription": "Molecular similarity search",
+        "longDescription": "Search public make-on-demand chemical spaces, such as Enamine REAL, for purchasable molecules similar to a structure you supply as SMILES. Choose fingerprint (Morgan/Tanimoto), 3D shape or electrostatic (ESP) similarity. Results appear as an interactive structure grid with scores, list prices and a CSV export. Searches run one SMILES against one database and return up to 20 hits. Guest access needs no account. Scores describe structural similarity, not biological activity or safety, and results are a bounded shortlist rather than every match.",
+        "developerName": "Deep MedChem",
+        "category": "Research",
+        "capabilities": ["Read"],
+        "websiteURL": "https://deepmedchem.com",
+        "privacyPolicyURL": "https://cheese.deepmedchem.com/privacy-policy",
+        "termsOfServiceURL": "https://cheese.deepmedchem.com/terms-and-conditions",
+        "defaultPrompt": [
+          "Find 20 molecules similar to aspirin, SMILES CC(=O)Oc1ccccc1C(=O)O, in Enamine REAL.",
+          "Search Enamine REAL for shape-similar analogues of c1ccc(CCNc2ncnc3ccccc23)cc1.",
+          "Which chemical space databases can I search?"
+        ],
+        "brandColor": "#24265D",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      }
+    }
+  }
+}

@@ -23,6 +23,10 @@ Guest access needs no signup, and all guests share the same capacity, so run one
 
 Whether Claude can reach the remote server depends on your Claude workspace's connector policy.
 
+### ChatGPT
+
+The same plugin is packaged for ChatGPT: `plugin.json`, `mcp.json`, `skills/` and `assets/` at the repository root. Download the ZIP from the latest release, or build it with `scripts/build-openai-zip.sh`. Submission details are in [OPENAI_SUBMISSION.md](OPENAI_SUBMISSION.md).
+
 ## Limits
 
 Similarity scores measure structural similarity. They are not predictions of biological activity or safety. Vendors determine availability and synthesis. Prices are list prices in USD for the default 1 mg amount shipped to the US, as reported by the catalogue; many make-on-demand products share the same price tier. Results are a bounded shortlist, not every match.
