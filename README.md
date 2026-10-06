@@ -10,7 +10,7 @@ The plugin contains no server code or credentials. It connects Claude to the rem
 - **similarity_search**: searches one SMILES against one database for up to 20 hits, using `morgan` (fingerprint), `shape` or `esp` (electrostatic) similarity.
 - **render_results**: shows an earlier result again by its `result_id`.
 
-In hosts that support MCP Apps, results appear as an interactive structure grid with CSV export and a link to the vendor's catalogue. The response also includes a [CHEESE](https://cheese.deepmedchem.com) link that runs the same search again in the web app; it does not reopen the exact stored shortlist.
+In hosts that support MCP Apps, results appear as an interactive structure grid with CSV export and a link to the vendor's catalogue. The response also includes a [CHEESE](https://cheese.deepmedchem.com) link that opens the web app with the query, database and method prefilled. It does not start a new search automatically or reopen the exact stored shortlist; choose Search in CHEESE to run a new query.
 
 Guest access needs no signup, and all guests share the same capacity, so run one search at a time. A "busy" error means the shared capacity is in use; wait a moment and try again. For larger searches, substructure queries or persistent work, use a DeepMedChem account with the [Python SDK](https://github.com/Deep-MedChem/deepmedchem-python).
 
