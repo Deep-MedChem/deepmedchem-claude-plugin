@@ -48,7 +48,18 @@ Reviewer access: public, read-only endpoint. No account, login or test credentia
    results again." Tool: `render_results` with the earlier `result_id`. Expected: the
    same grid, same structures and scores, without a new search.
 5. **CSV export.** In the grid from case 2, click the CSV download. Expected: a CSV
-   with the same SMILES, product IDs, scores and prices as the grid.
+   with the same SMILES, platform product IDs, scores and prices as the grid,
+   plus the returned vendor catalog IDs when available. Missing IDs remain blank.
+6. **Open saved CHEESE results.** In a fresh grid from the updated production
+   server, click its CHEESE link. Expected: a `job=` URL opens the existing
+   results, without another Search action or a new paid search. Refresh that
+   page and check the same stored results remain visible. A `run=0` link means
+   the older server is still being served and this release is not ready.
+
+Complete these checks in both ChatGPT and Claude before submitting. Verify that
+the server's CHEESE API credential is accepted and its service-account allowance
+supports the published guest capacity. Never upload that credential with either
+plugin package.
 
 ## Negative test cases
 
