@@ -1,8 +1,8 @@
-# DeepMedChem plugin for Claude
+# DeepMedChem plugin
 
-Search public DeepMedChem chemical spaces for molecules similar to a structure you supply, directly from Claude.
+Search public DeepMedChem chemical spaces for molecules similar to a structure you supply, directly from Claude or ChatGPT.
 
-The plugin contains no server code or credentials. It connects Claude to the remote MCP service at `https://mcp.deepmedchem.com/mcp`, which DeepMedChem operates, and adds a skill that tells Claude how to use it.
+This repository holds one plugin in both package formats: the Claude plugin (`.claude-plugin/`, `.mcp.json`) and the ChatGPT plugin (`plugin.json`, `mcp.json`, `assets/`), sharing the same `skills/`. It contains no server code or credentials. It connects the assistant to the remote MCP service at `https://mcp.deepmedchem.com/mcp`, which DeepMedChem operates, and adds a skill that tells the assistant how to use it.
 
 ## What it does
 
@@ -17,6 +17,8 @@ When the backend returns a vendor `catalog_id`, updated grids show it on the mol
 Guest access needs no signup, and all guests share the same capacity, so run one search at a time. A "busy" error means the shared capacity is in use; wait a moment and try again. For larger searches, substructure queries or persistent work, use a DeepMedChem account with the [Python SDK](https://github.com/Deep-MedChem/deepmedchem-python).
 
 ## Install
+
+### Claude
 
 ```
 /plugin marketplace add Deep-MedChem/plugin
