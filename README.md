@@ -19,7 +19,7 @@ Guest access needs no signup, and all guests share the same capacity, so run one
 ## Install
 
 ```
-/plugin marketplace add Deep-MedChem/deepmedchem-claude-plugin
+/plugin marketplace add Deep-MedChem/plugin
 /plugin install deepmedchem
 ```
 

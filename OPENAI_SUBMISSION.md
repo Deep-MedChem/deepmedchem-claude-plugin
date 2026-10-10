@@ -25,7 +25,7 @@ plugin uses `.claude-plugin/` and `.mcp.json`. Both share the same skill.
 | Long description | from `plugin.json` `longDescription` |
 | Icon | `assets/icon.png` (256×256 PNG) |
 | Website URL | https://deepmedchem.com |
-| Support URL | https://github.com/Deep-MedChem/deepmedchem-claude-plugin/issues |
+| Support URL | https://github.com/Deep-MedChem/plugin/issues |
 | Privacy policy URL | https://cheese.deepmedchem.com/privacy-policy |
 | Terms of service URL | https://cheese.deepmedchem.com/terms-and-conditions |
 | MCP server | `https://mcp.deepmedchem.com/mcp`, authentication None |
