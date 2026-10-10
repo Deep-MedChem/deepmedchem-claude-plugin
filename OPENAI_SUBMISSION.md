@@ -1,8 +1,8 @@
 # OpenAI plugin submission material
 
 Paste these into https://platform.openai.com/plugins. Upload the ZIP attached to the
-latest GitHub release of this repository, or build it with
-`scripts/build-openai-zip.sh` (writes `dist/deepmedchem-openai-plugin.zip`).
+latest GitHub release of this repository, or build it from the repository root with
+`zip -qrX dist/deepmedchem-openai-plugin.zip plugin.json mcp.json skills assets -x '.*'`.
 
 The OpenAI package uses `plugin.json`, `mcp.json`, `skills/` and `assets/`. The Claude
 plugin uses `.claude-plugin/` and `.mcp.json`. Both share the same skill.
@@ -11,10 +11,10 @@ plugin uses `.claude-plugin/` and `.mcp.json`. Both share the same skill.
 
 1. Production serves `openai/widgetDomain` on the results resource. Refresh the ChatGPT connection and check the widget-domain
    warning is gone.
-2. Copy the domain-verification token from the portal's MCP connection step into
-   the MCP server's `DMC_MCP_OPENAI_CHALLENGE_TOKEN` setting for prod, deploy, then check
-   `curl https://mcp.deepmedchem.com/.well-known/openai-apps-challenge` prints only
-   the token.
+2. Enter the domain-verification token from the portal's MCP connection step in the
+   production MCP server's OpenAI challenge setting and deploy. Then open
+   https://mcp.deepmedchem.com/.well-known/openai-apps-challenge in a browser: the page
+   must show only the token.
 
 ## Listing
 
