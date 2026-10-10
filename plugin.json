@@ -8,7 +8,7 @@
     "email": "info@deepmedchem.com",
     "url": "https://deepmedchem.com"
   },
-  "homepage": "https://github.com/Deep-MedChem/deepmedchem-claude-plugin",
+  "homepage": "https://github.com/Deep-MedChem/plugin",
   "license": "MIT",
   "keywords": ["chemistry", "cheminformatics", "molecules", "similarity search", "drug discovery"],
   "extensions": {

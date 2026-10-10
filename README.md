@@ -1,8 +1,8 @@
-# DeepMedChem plugin for Claude
+# DeepMedChem plugin
 
-Search public DeepMedChem chemical spaces for molecules similar to a structure you supply, directly from Claude.
+Search public DeepMedChem chemical spaces for molecules similar to a structure you supply, directly from Claude or ChatGPT.
 
-The plugin contains no server code or credentials. It connects Claude to the remote MCP service at `https://mcp.deepmedchem.com/mcp`, which DeepMedChem operates, and adds a skill that tells Claude how to use it.
+This repository holds one plugin in both package formats: the Claude plugin (`.claude-plugin/`, `.mcp.json`) and the ChatGPT plugin (`plugin.json`, `mcp.json`, `assets/`), sharing the same `skills/`. It contains no server code or credentials. It connects the assistant to the remote MCP service at `https://mcp.deepmedchem.com/mcp`, which DeepMedChem operates, and adds a skill that tells the assistant how to use it.
 
 ## What it does
 
@@ -18,8 +18,10 @@ Guest access needs no signup, and all guests share the same capacity, so run one
 
 ## Install
 
+### Claude
+
 ```
-/plugin marketplace add Deep-MedChem/deepmedchem-claude-plugin
+/plugin marketplace add Deep-MedChem/plugin
 /plugin install deepmedchem
 ```
 
