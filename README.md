@@ -93,12 +93,10 @@ After server updates, **refresh the ChatGPT connection and start a new chat**. I
 | ChatGPT / OpenAI | [`plugin.json`](plugin.json), [`mcp.json`](mcp.json), `skills/`, `assets/` |
 | Claude | [`.claude-plugin/`](.claude-plugin/), [`.mcp.json`](.mcp.json), `skills/`, `assets/` |
 
-To build the OpenAI upload ZIP from the current source:
+To build the OpenAI upload ZIP from the current source, run from the repository root:
 
 ```sh
-git clone https://github.com/Deep-MedChem/plugin.git
-cd plugin
-bash scripts/build-openai-zip.sh
+zip -qrX dist/deepmedchem-openai-plugin.zip plugin.json mcp.json skills assets -x '.*'
 ```
 
 The output is `dist/deepmedchem-openai-plugin.zip`. Maintainer submission instructions and reviewer test cases are in [OPENAI_SUBMISSION.md](OPENAI_SUBMISSION.md). The direct connection steps above can be used to test the hosted service before directory publication.
