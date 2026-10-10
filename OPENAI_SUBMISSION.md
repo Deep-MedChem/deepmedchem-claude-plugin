@@ -23,7 +23,7 @@ plugin uses `.claude-plugin/` and `.mcp.json`. Both share the same skill.
 | Display name (≤30) | DeepMedChem |
 | Short description (≤30) | Molecular similarity search |
 | Long description | from `plugin.json` `longDescription` |
-| Icon | the 256×256 PNG icon in the assets folder (256×256 PNG) |
+| Icon | the 256×256 PNG icon in the assets folder |
 | Website URL | https://deepmedchem.com |
 | Support URL | https://github.com/Deep-MedChem/plugin/issues |
 | Privacy policy URL | https://cheese.deepmedchem.com/privacy-policy |
