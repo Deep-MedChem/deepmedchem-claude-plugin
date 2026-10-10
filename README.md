@@ -1,57 +1,133 @@
-# DeepMedChem plugin
+# DeepMedChem plugin for ChatGPT and Claude
 
-Search public DeepMedChem chemical spaces for molecules similar to a structure you supply, directly from Claude or ChatGPT.
+Search public DeepMedChem chemical spaces for molecules similar to a structure you supply, directly from **ChatGPT or Claude**. View molecular structures, similarity scores, prices and vendor catalogue IDs, then open the same saved results in [CHEESE](https://cheese.deepmedchem.com).
 
-This repository holds one plugin in both package formats: the Claude plugin (`.claude-plugin/`, `.mcp.json`) and the ChatGPT plugin (`plugin.json`, `mcp.json`, `assets/`), sharing the same `skills/`. It contains no server code or credentials. It connects the assistant to the remote MCP service at `https://mcp.deepmedchem.com/mcp`, which DeepMedChem operates, and adds a skill that tells the assistant how to use it.
+Both plugin packages use the same hosted MCP service and [chemical-space-search skill](skills/chemical-space-search/SKILL.md). This repository contains the package manifests, connection settings, skill and icon assets. It contains no backend server code or credentials, and using the hosted service requires no local MCP server or Python installation.
+
+- [Set up ChatGPT](#chatgpt)
+- [Set up Claude](#claude)
+- [Test either platform](#try-it)
+- [Build the plugin packages](#plugin-packages)
 
 ## What it does
 
-- **catalog**: lists the available databases, their pricing and the guest limits.
-- **similarity_search**: searches one SMILES against one database for up to 20 hits, using `morgan` (fingerprint), `shape` or `esp` (electrostatic) similarity.
-- **render_results**: shows an earlier result again by its `result_id`.
+| Tool | What it does |
+|---|---|
+| `catalog` — List chemical space databases | Lists the available databases, their pricing and the current guest limits. |
+| `similarity_search` — Search similar molecules | Searches one SMILES against one database for up to 20 hits using `morgan` (fingerprint), `shape` or `esp` (electrostatic) similarity. |
+| `render_results` — Show previous molecule results | Displays an earlier result again using its `result_id`, without submitting another search. |
 
-In hosts that support MCP Apps, results appear as an interactive structure grid with CSV export and a link to the vendor's catalogue. Use the search-specific [CHEESE](https://cheese.deepmedchem.com) link returned with the result. A link containing `job=` opens the saved search results without submitting another search. Older server versions return a `run=0` link, which only prefills the query, database and method; choose Search to run that query. A general CHEESE homepage link does not identify saved results.
+In hosts that support MCP Apps, results appear as an interactive structure grid with CSV export and a link to the vendor's catalogue. The grid displays the vendor `catalog_id` when the backend supplies one. The platform `product_id` remains the API identity and is retained in CSV exports; an internal hash must not be presented as a vendor catalogue ID.
 
-When the backend returns a vendor `catalog_id`, updated grids show it on the molecule card and include it in CSV exports. The platform `product_id` remains the API identity. Missing vendor IDs must not be inferred from internal hashes.
+Use the **exact CHEESE link returned with the result**. A URL containing `job=` opens the saved search results without submitting another search. A general CHEESE homepage link does not identify those results. Older `run=0` links only prefill a search form and do not open a saved result.
 
-Guest access needs no signup, and all guests share the same capacity, so run one search at a time. A "busy" error means the shared capacity is in use; wait a moment and try again. For larger searches, substructure queries or persistent work, use a DeepMedChem account with the [Python SDK](https://github.com/Deep-MedChem/deepmedchem-python).
+## Set up the hosted service
 
-## Install
+Use these connection settings for either platform:
 
-### Claude
+| Setting | Value |
+|---|---|
+| Name | DeepMedChem |
+| MCP server URL | `https://mcp.deepmedchem.com/mcp` |
+| Authentication | None / No authentication / No sign in |
 
-```
-/plugin marketplace add Deep-MedChem/plugin
-/plugin install deepmedchem
-```
-
-Whether Claude can reach the remote server depends on your Claude workspace's connector policy.
+Every user connects to the same server URL. Guest MCP access requires no DeepMedChem signup or customer API key. ChatGPT and Claude account or workspace policies still apply; CHEESE's website has its own access rules.
 
 ### ChatGPT
 
-The same plugin is packaged for ChatGPT: `plugin.json`, `mcp.json`, `skills/` and `assets/` at the repository root. Download the ZIP from the latest release, or build it with `scripts/build-openai-zip.sh`. Submission details are in [OPENAI_SUBMISSION.md](OPENAI_SUBMISSION.md).
+1. Open [ChatGPT Plugins](https://chatgpt.com/plugins) in the web version.
+2. Select **+** (or **Add**) and choose **Add custom MCP server**. Some interfaces label this **Create MCP app**.
+3. Enter **DeepMedChem** and the MCP server URL above. Choose **No authentication**.
+4. Review the connection warning and complete creation (**Create as a plugin** in the current interface). Install the resulting plugin if prompted.
+5. Start a **new chat**, type `@` and select **DeepMedChem**. If your interface uses a tools/apps menu under **+**, enable DeepMedChem there.
+6. Run the [test prompt below](#try-it).
+
+Controls and permissions vary by account and workspace. If the custom MCP option is missing, follow OpenAI's [connection and testing guide](https://developers.openai.com/plugins/deploy/connect-chatgpt) for your account; a workspace administrator may need to enable access.
+
+### Claude
+
+#### Claude web and desktop: remote connector
+
+1. Open **Customize → Connectors** (shown as **Settings → Connectors** in some interfaces).
+2. Choose **+ Add → Add custom connector**.
+3. Enter **DeepMedChem** and the MCP server URL above.
+4. Select **No sign in** if authentication is requested. No API key or request headers are needed. Finish adding the connector.
+5. Start a **new chat** and enable **DeepMedChem** under **+ → Connectors**, then run the [test prompt below](#try-it).
+
+Team and Enterprise workspaces may require an owner to add the connector before members can enable it. See Anthropic's [remote connector guide](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp).
+
+#### Claude Code: plugin package
+
+Run these commands inside a Claude Code session:
+
+```text
+/plugin marketplace add Deep-MedChem/plugin
+/plugin install deepmedchem@deepmedchem
+```
+
+The marketplace and plugin are both named `deepmedchem`. See the [Claude Code installation guide](https://code.claude.com/docs/en/discover-plugins) for installation scopes and workspace policies. The interactive grid depends on the host's MCP Apps support.
+
+Connecting the MCP server directly makes its tools available. Installing the plugin package also provides the shared skill's workflow instructions.
+
+## Try it
+
+Use the same prompts in ChatGPT and Claude:
+
+> Which chemical space databases can I search with DeepMedChem?
+
+> Find 20 molecules similar to aspirin, SMILES CC(=O)Oc1ccccc1C(=O)O, in Enamine REAL using Morgan similarity, and show the results grid.
+
+Check that:
+
+1. A compatible host shows molecular structures, scores, prices when available and vendor catalogue IDs when supplied.
+2. **CSV download** exports the displayed hits, including platform product IDs and available vendor catalogue IDs.
+3. **Open in CHEESE** uses the returned `job=` link and opens the existing results. Reloading the page should show the same results without starting another search.
+4. Asking **“Show me those aspirin results again”** reuses the earlier `result_id` through `render_results` instead of running another search.
+
+After server updates, **refresh the ChatGPT connection and start a new chat**. In Claude, reconnect if the connector still shows stale tools or results, then start a new chat. Existing chat messages can retain an older grid. If your host does not display the grid, use the returned CHEESE link to view the saved results.
+
+## Plugin packages
+
+| Platform | Package files |
+|---|---|
+| ChatGPT / OpenAI | [`plugin.json`](plugin.json), [`mcp.json`](mcp.json), `skills/`, `assets/` |
+| Claude | [`.claude-plugin/`](.claude-plugin/), [`.mcp.json`](.mcp.json), `skills/`, `assets/` |
+
+To build the OpenAI upload ZIP from the current source:
+
+```sh
+git clone https://github.com/Deep-MedChem/plugin.git
+cd plugin
+bash scripts/build-openai-zip.sh
+```
+
+The output is `dist/deepmedchem-openai-plugin.zip`. Maintainer submission instructions and reviewer test cases are in [OPENAI_SUBMISSION.md](OPENAI_SUBMISSION.md). The direct connection steps above can be used to test the hosted service before directory publication.
 
 ## Limits
 
-Similarity scores measure structural similarity. They are not predictions of biological activity or safety. Vendors determine availability and synthesis. Prices are list prices in USD for the default 1 mg amount shipped to the US, as reported by the catalogue; many make-on-demand products share the same price tier. Results are a bounded shortlist, not every match.
+Guest searches accept one verified SMILES and one database at a time, with up to 20 hits. Guest capacity is shared: run searches sequentially. If the service is busy, wait briefly and retry once.
+
+The guest tools do not resolve molecule names or support substructure constraints, property or price filters, property calculations, or SDF export. Supply a verified SMILES. For broader authenticated workflows, use [CHEESE](https://cheese.deepmedchem.com) or the [DeepMedChem Python SDK](https://github.com/Deep-MedChem/deepmedchem-python).
+
+Similarity scores measure structural similarity, not biological activity or safety. Vendors determine availability and synthesis. Prices are catalogue list prices in USD for the default 1 mg amount shipped to the US; many make-on-demand products share the same price tier. Results are a bounded shortlist, not every match.
 
 ## Data and privacy
 
-The plugin runs no code on your machine and installs nothing. It only declares the remote MCP server and a skill.
+Both packages declare a remote MCP connection and a skill. Searches run on DeepMedChem's hosted services; the optional results grid is rendered by the assistant host.
 
-- What is sent: the SMILES you search, the chosen database, method and result count, plus a `result_id` when an earlier result is shown again. Nothing else from the conversation is sent.
-- Where it goes: `https://mcp.deepmedchem.com`, operated by Deep MedChem, which forwards the search to DeepMedChem backend services. Hosting and data handling are covered by the privacy policy below.
-- Guest callers need no customer account or API key. The server uses a DeepMedChem-held backend credential; it is not included in this plugin or sent to the client. The plugin never asks users to paste API keys into a conversation.
-- Widget snapshots are kept in bounded server memory so that `render_results` and the CSV export can return them. They can be evicted or lost when the server restarts, and old widget/CSV links can stop working.
-- Searches routed through the CHEESE jobs API also create a stored CHEESE job containing the query and results. That storage is separate from the widget's memory snapshot; restarting MCP does not delete the CHEESE job. Its handling is subject to the CHEESE privacy policy.
-- Links in the results grid open the vendor's general catalogue page or the returned CHEESE search link in your browser only when you click them.
+- Tool inputs include the SMILES you search, the chosen database, method and result count, plus a `result_id` when displaying an earlier result. These tool inputs are sent to DeepMedChem; your assistant platform separately handles your conversation under its own policies.
+- Requests go to `https://mcp.deepmedchem.com`, operated by Deep MedChem, which forwards searches to DeepMedChem backend services.
+- Guest callers need no customer account or API key. The server's backend credential is held by DeepMedChem and is not included in either package or sent to the client. Never paste API keys into a conversation.
+- Widget snapshots are kept in bounded server memory for `render_results` and CSV export. They can be evicted or lost when the server restarts, so old widget or CSV links can stop working.
+- Searches routed through the CHEESE jobs API also create a stored CHEESE job containing the query and results. This is separate from the widget snapshot; restarting MCP does not delete the CHEESE job. Its handling is subject to the CHEESE privacy policy.
+- Grid links open the vendor's general catalogue page or the returned CHEESE search link when clicked.
 
-Privacy policy: https://cheese.deepmedchem.com/privacy-policy. Terms: https://cheese.deepmedchem.com/terms-and-conditions.
+See the [privacy policy](https://cheese.deepmedchem.com/privacy-policy) and [terms of service](https://cheese.deepmedchem.com/terms-and-conditions).
 
 ## Support
 
-Email info@deepmedchem.com, or open an issue in this repository.
+Email [info@deepmedchem.com](mailto:info@deepmedchem.com), or [open an issue](https://github.com/Deep-MedChem/plugin/issues). Include the assistant platform, prompt, error and returned CHEESE link when reporting a problem.
 
 ## License
 
-MIT
+[MIT](LICENSE)
